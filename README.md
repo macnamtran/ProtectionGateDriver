@@ -14,6 +14,31 @@ The intended load-current path is: 48 V bus → fuse F1 → J1 pin 1 → externa
 - J2: external gate supply input, pin 1 = VDRV (+12 V assumed), pin 2 = GNDPWR.
 - Fuse and bus TVS are provisional and require selection against system requirements.
 
+## Schematic preview — work in progress
+
+![KiCad wheel power switch schematic with external 12 V gate supply](images/schematic-wip.png)
+
+The screenshot shows the current schematic and preliminary supply-capacitance estimate. Grounding, protection selection and footprint dimensions remain under review.
+
+## Design calculations — preliminary
+
+These are original working notes from the schematic, not measured results. **The corrections and limitations below take precedence over statements in the screenshots.**
+
+### Input and gate-drive sizing
+
+![Preliminary input resistor, gate resistor and pulldown calculations](images/gate-drive-calculations-wip.png)
+
+- **Arithmetic check:** `3.3² / 33,000 = 0.00033 W = 0.33 mW`, consistent with the image. The 0.10 mA figure assumes the full 3.3 V across one resistor; actual input current and resistor dissipation depend on the driver's differential input network and common-mode voltage.
+- The approximately 0.85 A turn-on and 1.45 A turn-off figures are initial resistive estimates. Gate current varies during switching; `Qg / Ipeak` does not establish actual switching times. The listed 278 ns and 163 ns are rough estimates requiring waveform validation.
+- `Qg / VGS` and the resulting 0.237 ms pulldown time constant are simplified approximations for a nonlinear gate. R5 discharges an undriven gate; it does not override a driver commanded high or alone guarantee safe behavior with floating control inputs.
+- `236.7 nC / 0.25 V = 0.947 µF` is a first-order charge-balance estimate. Final decoupling must account for effective capacitance at 12 V, tolerance, ESR/ESL and layout; a nominal 1 µF capacitor does not guarantee that effective value.
+
+### Gate clamp and bus protection
+
+![Preliminary gate Zener and bus TVS selection notes](images/protection-calculations-wip.png)
+
+A nominal 15 V Zener does not by itself guarantee that gate voltage remains below 20 V. Verify its actual clamp voltage at the expected pulse current, tolerance and wiring inductance. TVS peak power (W) and pulse energy (J) must be checked separately against the transient waveform. Final fuse and TVS parts remain TBD.
+
 ## Open the project
 
 Use KiCad 9. Open `ProtectionGateDriver.kicad_pro`, then the schematic. Keep the project files, library tables, symbol library and `ProtectionGateDriver.pretty` folder together. Both library tables use project-relative paths.
