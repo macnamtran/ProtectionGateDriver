@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "ProtectionGateDriver")(type "KiCad")(uri "${KIPRJMOD}/ProtectionGateDriver.pretty")(options "")(descr "Project MOSFET footprint; dimensional review pending"))
+)
