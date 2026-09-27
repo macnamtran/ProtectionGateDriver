@@ -6,6 +6,8 @@ Work-in-progress KiCad design for switching the return path of a wheel module on
 
 ## Circuit overview
 
+The description below refers to the editable KiCad files currently committed in this repository. The newer screenshot in the preview section has not yet been synchronized to those files.
+
 The intended load-current path is: 48 V bus → fuse F1 → J1 pin 1 → external wheel load → J1 pin 2 → Q1 drain → Q1 source → GNDPWR.
 
 - Q1: MCC MCTL1D0N08Y, with custom symbol and adapted TOLL-8L footprint.
@@ -16,9 +18,11 @@ The intended load-current path is: 48 V bus → fuse F1 → J1 pin 1 → externa
 
 ## Schematic preview — work in progress
 
-![KiCad wheel power switch schematic with external 12 V gate supply](images/schematic-wip.png)
+![Updated one-wheel schematic with separate input protection, wheel output, and gate-driver sections](images/schematic-wip.png)
 
-The screenshot shows the current schematic and preliminary supply-capacitance estimate. Grounding, protection selection and footprint dimensions remain under review.
+Updated preview (September 27, 2026): one-wheel board with J1 as the 48 V input, J2 as the wheel output, and separate functional blocks connected by net labels. D2 remains after F1, and the ground net is named GND. The physical external 12 V connection and TVS placement are pending lead review.
+
+**This image is newer than the editable KiCad files in this repository.** It is a work-in-progress preview, not an electrically validated design. Grounding, protection selection and footprint dimensions remain under review.
 
 ## Design calculations — preliminary
 
