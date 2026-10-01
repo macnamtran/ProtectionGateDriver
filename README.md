@@ -10,29 +10,30 @@ Status updated October 1, 2026: the team lead has approved the latest schematic 
 
 The current scope is **one wheel per board**, with six separate one-wheel boards intended for the rover. The one-wheel design will be developed and validated before scaling.
 
-The latest approved schematic is maintained locally and has not yet been synchronized with the editable KiCad files in this repository. The September 27 preview below is retained as a progress snapshot; it is not identified as the final approved revision. The next repository update should include the approved schematic and a matching export.
+The approved schematic, project settings and custom libraries were synchronized from the supplied local project on October 1, 2026. The preview below was supplied with that project. No PCB layout file is included yet.
 
 Approval to begin layout is a design milestone, not fabrication release or evidence of measured electrical performance.
 
 ## Circuit overview
 
-The description below refers to the editable KiCad files currently committed in this repository. The newer screenshot in the preview section has not yet been synchronized to those files.
+The description below refers to the synchronized editable KiCad files.
 
-The intended load-current path is: 48 V bus → fuse F1 → J1 pin 1 → external wheel load → J1 pin 2 → Q1 drain → Q1 source → GNDPWR.
+The intended load-current path is: J1 pin 1 (+48 V input) → fuse F1 → output_pos → J2 pin 1 → external wheel load → J2 pin 2 (output_neg) → Q1 drain → Q1 source → GND → J1 pin 2.
 
 - Q1: MCC MCTL1D0N08Y, with custom symbol and adapted TOLL-8L footprint.
 - U1: 1EDN7550B, with separate turn-on and turn-off gate resistors.
 - Gate-source pulldown and Zener clamp; local driver-supply decoupling.
-- J2: external gate supply input, pin 1 = VDRV (+12 V assumed), pin 2 = GNDPWR.
+- J1: `48V_INPUT_XT_MALE`, with +48 V and GND input connections.
+- J2: `WHEEL_OUTPUT_XT_FEMALE`, with `output_pos` and switched return `output_neg`.
+- Driver supply: +12 V net, assumed externally regulated; no separate gate-supply connector is present in this revision.
+- D2 is connected between the fused positive supply and GND, after F1.
 - Fuse and bus TVS are provisional and require selection against system requirements.
 
 ## Schematic preview — work in progress
 
 ![Updated one-wheel schematic with separate input protection, wheel output, and gate-driver sections](images/schematic-wip.png)
 
-Updated preview (September 27, 2026): one-wheel board with J1 as the 48 V input, J2 as the wheel output, and separate functional blocks connected by net labels. D2 remains after F1, and the ground net is named GND. This snapshot predates the latest lead approval to proceed to layout; confirm final connection details against the approved local schematic.
-
-**This image is newer than the editable KiCad files in this repository.** It is a work-in-progress preview, not an electrically validated design. Grounding, protection selection and footprint dimensions remain under review.
+Updated preview (October 1, 2026): supplied with the approved one-wheel schematic, showing input protection, wheel output, test points and the gate-driver block. Functional blocks connect through net labels. Layout and hardware validation remain outstanding.
 
 ## Design calculations — preliminary
 
@@ -63,24 +64,24 @@ Q1 uses `ProtectionGateDriver:MCC_MCTL1D0N08Y_TOLL8L`: gate pad 1, source pads 2
 
 - Received team-lead approval for the latest local schematic to proceed to PCB layout (status recorded October 1, 2026).
 - Captured the low-side switching circuit and STM32 enable interface in the repository baseline.
-- Added an explicit external 12 V input connector in the older committed schematic. Later local revisions changed the connector arrangement; synchronize the approved files before starting layout from this repository.
+- Synchronized the approved local schematic and project files; J1 is the 48 V input and J2 is the wheel output.
 - Added a project-local MOSFET footprint with pad numbering matching the custom symbol.
 - Checked edited schematic structure and connector wire paths programmatically. These checks do not replace KiCad ERC or hardware tests.
 
 ## Next steps — PCB layout and validation
 
-- Synchronize the approved local schematic, project settings and libraries; update the schematic preview to match.
+- Create the PCB layout from the synchronized schematic after completing footprint assignments.
 - Establish board dimensions, mounting requirements, connector positions and the intended stackup with the team.
 - Place the MOSFET, gate driver, gate resistors and local decoupling to keep the gate-drive loop short; plan the load-current path and source-reference routing.
 - Size copper and check clearances against confirmed electrical requirements and fabrication capabilities.
 
 ## Items to confirm and document before fabrication
 
-The items below were tracked against the older repository baseline. Reconcile them with the approved local revision rather than assuming approval resolved every item.
+Track these remaining implementation and validation items as layout proceeds.
 
 - Confirm maximum bus voltage, wheel continuous/stall current, and whether the switched load is a motor or a motor controller.
 - Select fuse and TVS ratings; assess the turn-off transient path and MOSFET voltage margin.
-- Resolve the lead's AGND/DGND guidance and the system ground connection. The current schematic still connects R2 to GNDPWR; the proposed separate STM32 ground input has **not** been implemented.
+- Resolve the lead's AGND/DGND guidance and the system ground connection. The current schematic connects R2 to GND; the proposed separate STM32 ground input has **not** been implemented.
 - Verify MOSFET footprint dimensions against the manufacturer drawing.
 - Complete remaining footprint assignments, KiCad ERC, PCB layout, thermal/current-path review and DRC.
 - Define and carry out bench validation before claiming measured performance.
