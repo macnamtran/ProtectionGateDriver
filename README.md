@@ -2,17 +2,21 @@
 
 Work-in-progress KiCad design for switching the return path of a wheel module on a shared nominal 48 V bus. A 3.3 V STM32 enable signal controls an N-channel MOSFET through an Infineon 1EDN7550B gate driver powered by an assumed external regulated 12 V supply.
 
-**Status: schematic approved by the team lead to proceed to PCB layout. Layout is the next development stage; no completed PCB layout or hardware validation is claimed. Not ready for fabrication.**
+**Status: first PCB layout iteration (October 9, 2026). Work in progress — NOT the final version for fabrication.**
 
-## Project milestone — approved to proceed to layout
+## Project milestone — first layout iteration
 
-Status updated October 1, 2026: the team lead has approved the latest schematic to move into PCB layout.
+The team lead approved the schematic to proceed to layout on October 1, 2026. This update saves the first placement, routing and copper-zone iteration in `ProtectionGateDriver.kicad_pcb`, with the supplied project settings and libraries.
 
-The current scope is **one wheel per board**, with six separate one-wheel boards intended for the rover. The one-wheel design will be developed and validated before scaling.
+The scope is **one wheel per board**, with six separate one-wheel boards intended for the rover. Layout review, component-rating confirmation, current-path/thermal review and hardware validation remain outstanding. This upload is a development checkpoint, not a fabrication release. ERC/DRC were not independently rerun for this upload.
 
-The approved schematic, project settings and custom libraries were synchronized from the supplied local project on October 1, 2026. The preview below was supplied with that project. No PCB layout file is included yet.
+### Layout preview — iteration 1, not for fabrication
 
-Approval to begin layout is a design milestone, not fabrication release or evidence of measured electrical performance.
+![First PCB layout iteration](images/layout-iteration-1.png)
+
+![KiCad 3D preview of the first layout iteration](images/layout-iteration-1-3d.png)
+
+The 3D image is a CAD preview, not a manufactured or tested board.
 
 ## Circuit overview
 
@@ -25,7 +29,7 @@ The intended load-current path is: J1 pin 1 (+48 V input) → fuse F1 → output
 - Gate-source pulldown and Zener clamp; local driver-supply decoupling.
 - J1: `48V_INPUT_XT_MALE`, with +48 V and GND input connections.
 - J2: `WHEEL_OUTPUT_XT_FEMALE`, with `output_pos` and switched return `output_neg`.
-- Driver supply: +12 V net, assumed externally regulated; no separate gate-supply connector is present in this revision.
+- Driver supply: external regulated +12 V through J3; STM32 enable and GND through J4.
 - D2 is connected between the fused positive supply and GND, after F1.
 - Fuse and bus TVS are provisional and require selection against system requirements.
 
@@ -33,7 +37,7 @@ The intended load-current path is: J1 pin 1 (+48 V input) → fuse F1 → output
 
 ![Updated one-wheel schematic with separate input protection, wheel output, and gate-driver sections](images/schematic-wip.png)
 
-Updated preview (October 1, 2026): supplied with the approved one-wheel schematic, showing input protection, wheel output, test points and the gate-driver block. Functional blocks connect through net labels. Layout and hardware validation remain outstanding.
+Updated preview (October 9, 2026): supplied schematic showing input protection, wheel output, gate driver, test points and external supply/control connectors. Functional blocks connect through net labels. Layout refinement and hardware validation remain outstanding.
 
 ## Design calculations — preliminary
 
@@ -70,7 +74,7 @@ Q1 uses `ProtectionGateDriver:MCC_MCTL1D0N08Y_TOLL8L`: gate pad 1, source pads 2
 
 ## Next steps — PCB layout and validation
 
-- Create the PCB layout from the synchronized schematic after completing footprint assignments.
+- Review and refine the first PCB layout iteration; verify assigned footprints against the selected parts.
 - Establish board dimensions, mounting requirements, connector positions and the intended stackup with the team.
 - Place the MOSFET, gate driver, gate resistors and local decoupling to keep the gate-drive loop short; plan the load-current path and source-reference routing.
 - Size copper and check clearances against confirmed electrical requirements and fabrication capabilities.
@@ -81,7 +85,7 @@ Track these remaining implementation and validation items as layout proceeds.
 
 - Confirm maximum bus voltage, wheel continuous/stall current, and whether the switched load is a motor or a motor controller.
 - Select fuse and TVS ratings; assess the turn-off transient path and MOSFET voltage margin.
-- Resolve the lead's AGND/DGND guidance and the system ground connection. The current schematic connects R2 to GND; the proposed separate STM32 ground input has **not** been implemented.
+- Resolve the lead's AGND/DGND guidance and the system ground connection. The current schematic connects R2 to GND and J4 provides STM32 enable and GND; verify compatibility with the system grounding architecture.
 - Verify MOSFET footprint dimensions against the manufacturer drawing.
 - Complete remaining footprint assignments, KiCad ERC, PCB layout, thermal/current-path review and DRC.
 - Define and carry out bench validation before claiming measured performance.
