@@ -2,21 +2,25 @@
 
 Work-in-progress KiCad design for switching the return path of a wheel module on a shared nominal 48 V bus. A 3.3 V STM32 enable signal controls an N-channel MOSFET through an Infineon 1EDN7550B gate driver powered by an assumed external regulated 12 V supply.
 
-**Status: first PCB layout iteration (October 9, 2026). Work in progress — NOT the final version for fabrication.**
+**Status: second PCB layout iteration (October 21, 2026). Work in progress — NOT the final version for fabrication.**
 
-## Project milestone — first layout iteration
+## Project milestone — second layout iteration
 
-The team lead approved the schematic to proceed to layout on October 1, 2026. This update saves the first placement, routing and copper-zone iteration in `ProtectionGateDriver.kicad_pcb`, with the supplied project settings and libraries.
+The team lead approved the schematic to proceed to layout on October 1, 2026. This update saves the second placement, routing and copper-zone iteration in `ProtectionGateDriver.kicad_pcb`, with the supplied project settings and libraries.
 
 The scope is **one wheel per board**, with six separate one-wheel boards intended for the rover. Layout review, component-rating confirmation, current-path/thermal review and hardware validation remain outstanding. This upload is a development checkpoint, not a fabrication release. ERC/DRC were not independently rerun for this upload.
 
-### Layout preview — iteration 1, not for fabrication
+### Layout preview — iteration 2, not for fabrication
 
-![First PCB layout iteration](images/layout-iteration-1.png)
+![Second PCB layout iteration](images/layout-iteration-2.png)
 
-![KiCad 3D preview of the first layout iteration](images/layout-iteration-1-3d.png)
+![KiCad 3D preview of the second layout iteration](images/layout-iteration-2-3d.png)
+
+This iteration uses four copper layers (F.Cu, In1.Cu, In2.Cu and B.Cu), revised placement/routing, copper fills and ground vias. The uploaded native project files are preserved as supplied; this upload does not constitute an electrical design review.
 
 The 3D image is a CAD preview, not a manufactured or tested board.
+
+Previous checkpoint: [iteration 1 layout](images/layout-iteration-1.png) and [3D preview](images/layout-iteration-1-3d.png).
 
 ## Circuit overview
 
@@ -74,7 +78,7 @@ Q1 uses `ProtectionGateDriver:MCC_MCTL1D0N08Y_TOLL8L`: gate pad 1, source pads 2
 
 ## Next steps — PCB layout and validation
 
-- Review and refine the first PCB layout iteration; verify assigned footprints against the selected parts.
+- Review and refine the second PCB layout iteration; verify assigned footprints against the selected parts.
 - Establish board dimensions, mounting requirements, connector positions and the intended stackup with the team.
 - Place the MOSFET, gate driver, gate resistors and local decoupling to keep the gate-drive loop short; plan the load-current path and source-reference routing.
 - Size copper and check clearances against confirmed electrical requirements and fabrication capabilities.
