@@ -2,9 +2,26 @@
 
 Work-in-progress KiCad design for switching the return path of a wheel module on a shared nominal 48 V bus. A 3.3 V STM32 enable signal controls an N-channel MOSFET through an Infineon 1EDN7550B gate driver powered by an assumed external regulated 12 V supply.
 
-**Status: second PCB layout iteration (October 21, 2026). Work in progress — NOT the final version for fabrication.**
+**Status: third PCB layout iteration (October 25, 2026). Work in progress — NOT FOR FABRICATION.**
 
-## Project milestone — second layout iteration
+## Latest checkpoint — third layout iteration
+
+This checkpoint uploads the editable KiCad PCB, schematic and project settings directly from the supplied October 25 project ZIP, along with its project-local libraries and three new screenshots.
+
+- Added C3, a 1 µF through-hole input capacitor across fused 48 V and GND.
+- Added four M2 mounting holes and rounded board corners.
+- Refined placement, copper zones and silkscreen.
+- Proposed four-layer, 1.6 mm stackup: 2 oz outer copper and 1 oz inner copper. Actual fabrication stackup remains to be confirmed.
+
+![Schematic — iteration 3](images/schematic-iteration-3.png)
+
+![PCB layout — iteration 3](images/layout-iteration-3.png)
+
+![CAD 3D preview — iteration 3, not manufactured hardware](images/layout-iteration-3-3d.png)
+
+**Validation status:** no independent ERC/DRC, fabrication review or hardware testing was performed for this upload. Continuous-current capability is not established. The 30 A rating of the Keystone 3568 holder is a component constraint, not a verified board rating; the fuse itself and protection parts still require final selection. The native files are preserved as supplied.
+
+## Previous checkpoint — second layout iteration
 
 The team lead approved the schematic to proceed to layout on October 1, 2026. This update saves the second placement, routing and copper-zone iteration in `ProtectionGateDriver.kicad_pcb`, with the supplied project settings and libraries.
 
